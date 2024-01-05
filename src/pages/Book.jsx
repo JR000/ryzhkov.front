@@ -58,11 +58,11 @@ const Book = () => {
     // };
 
     async function handleRequestPdf() {
-        downloadFile(`http://localhost:5001/api/book/${book.current.book_id}/file`, book.current.title + '.pdf')
+        downloadFile(`http://api.ryzhkov.site/api/book/${book.current.book_id}/file`, book.current.title + '.pdf')
     }
 
     async function handleRequestDjvu() {
-        downloadFile(`http://localhost:5001/api/book/${book.current.book_id}/file`, book.current.title + '.djvu')
+        downloadFile(`http://api.ryzhkov.site/api/book/${book.current.book_id}/file`, book.current.title + '.djvu')
     }
 
     async function downloadFile(fileUrl, outputLocationPath) {
