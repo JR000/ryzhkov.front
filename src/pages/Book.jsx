@@ -26,7 +26,7 @@ const Book = () => {
 
     // const handleRequestPdf = async () => {
     //     // try {
-    //         // const response = await axios.get(`http://localhost:5001/api/book/${book.current.book_id}/file`, {
+    //         // const response = await axios.get(`http://books.ryzhkov.site/api/book/${book.current.book_id}/file`, {
     //         //     responseType: 'blob', // Указываем, что ожидаем получить данные в виде Blob,
     //         //     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
     //         // });
