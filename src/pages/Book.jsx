@@ -24,28 +24,45 @@ const Book = () => {
 
     const [pdfSource, setPdfSource] = useState('');
 
-    const handleRequestPdf = async () => {
-        try {
-            const response = await axios.get(`http://localhost:5001/api/book/${book.current.book_id}/file`, {
-                responseType: 'blob', // Указываем, что ожидаем получить данные в виде Blob,
-                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-            });
+    // const handleRequestPdf = async () => {
+    //     // try {
+    //         // const response = await axios.get(`http://localhost:5001/api/book/${book.current.book_id}/file`, {
+    //         //     responseType: 'blob', // Указываем, что ожидаем получить данные в виде Blob,
+    //         //     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    //         // });
 
-            // Создаем URL объект для полученного Blob, чтобы его можно было использовать в iframe
-            const pdfUrl = URL.createObjectURL(response.data);
+    //         // Создаем URL объект для полученного Blob, чтобы его можно было использовать в iframe
+    //         // const pdfUrl = URL.createObjectURL(new Blob([response.blob()]));
 
-            setPdfSource(pdfUrl);
-            store.user.downloads_left -= 1
-        } catch (error) {
-            alert('Ошибка')
-            console.error('Ошибка при выполнении запроса:', error);
-        }
-    };
+    //         // setPdfSource(pdfUrl);
+    //         // store.user.downloads_left -= 1
+    //     // } catch (error) {
+    //     //     alert('Ошибка')
+    //     //     console.error('Ошибка при выполнении запроса:', error);
+    //     // }
 
+    //     fetch(`http://localhost:5001/api/book/${book.current.book_id}/file`, {
+    //         method: 'GET',
+    //         headers: {
+    //             Authorization: `Bearer ${localStorage.getItem('token')}`
+    //         },
+    //     })
+    //         .then((response) => response.blob())
+    //         .then((blob) => {
+    //             const url = window.URL.createObjectURL(
+    //                 new Blob([blob]),
+    //             );
+    //             setPdfSource(url)
+    //             store.user.downloads_left -= 1
+    //         })
+    // };
 
+    async function handleRequestPdf() {
+        downloadFile(`http://localhost:5001/api/book/${book.current.book_id}/file`, book.current.title + '.pdf')
+    }
 
     async function handleRequestDjvu() {
-        downloadFile(`http://localhost:5001/api/book/${book.current.book_id}/file`, 'someDjvu.png')
+        downloadFile(`http://localhost:5001/api/book/${book.current.book_id}/file`, book.current.title + '.djvu')
     }
 
     async function downloadFile(fileUrl, outputLocationPath) {
@@ -76,6 +93,7 @@ const Book = () => {
 
                 // Clean up and remove the link
                 link.parentNode.removeChild(link);
+                store.user.downloads_left -= 1
             });
     }
 
